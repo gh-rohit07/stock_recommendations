@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QuantView AI — Institutional Quantitative Intelligence & Stock Forecasts</title>
+  <meta name="description" content="Production-ready multi-market quantitative AI intelligence dashboard. Walk-forward ML, volatility-adaptive RSI, regime detection, and explainable AI." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=10" />
+  <link rel="shortcut icon" type="image/svg+xml" href="/favicon.svg?v=10" />
+  <link rel="apple-touch-icon" href="/favicon.svg?v=10" />
+  <link rel="stylesheet" href="style.css?v=18" />
+</head>
+
+<body>
+<div class="app-layout">
+
+  <!-- ── Sidebar Backdrop Overlay (Mobile & Tablet) ── -->
+  <div id="sidebar-backdrop" class="sidebar-backdrop hidden" aria-label="Close sidebar"></div>
+
+  <!-- ─────────────────── SIDEBAR NAVIGATION ─────────────────── -->
+  <aside class="app-sidebar" id="app-sidebar">
+    <div class="sidebar-brand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" class="diamond-svg">
+        <polygon points="12 2 22 12 12 22 2 12" />
+      </svg>
+      <div class="brand-title-wrap">
+        <span class="brand-name">QuantView</span>
+        <span class="brand-badge">AI</span>
+      </div>
+      <button id="sidebar-close-btn" class="sidebar-close-btn" title="Close sidebar" aria-label="Close sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+      <button id="sidebar-collapse-btn" class="sidebar-collapse-btn" title="Toggle sidebar width" aria-label="Collapse sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="collapse-icon-svg"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+    </div>
+
+    <div class="sidebar-menu-group">
+      <div class="sidebar-label">Intelligence</div>
+      <a href="#result-panel" id="nav-link-dash" class="sidebar-link active" title="Dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        <span>Dashboard</span>
+        <span class="sidebar-link-glow"></span>
+      </a>
+      <a href="#stock-chart-card" id="nav-link-chart" class="sidebar-link analysis-nav-item hidden" title="Stock Chart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+        <span>Stock Chart</span>
+      </a>
+      <a href="#institutional-section" id="nav-link-inst" class="sidebar-link analysis-nav-item hidden" title="Fundamentals">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M3 10h18"></path><path d="M5 6l7-3 7 3"></path><path d="M4 10v11"></path><path d="M20 10v11"></path><path d="M8 14v4"></path><path d="M12 14v4"></path><path d="M16 14v4"></path></svg>
+        <span>Fundamentals</span>
+      </a>
+      <a href="#shap-card" id="nav-link-shap" class="sidebar-link analysis-nav-item hidden" title="SHAP Explainability">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+        <span>SHAP Explainability</span>
+      </a>
+      <a href="#benchmark-card" id="nav-link-benchmark" class="sidebar-link analysis-nav-item hidden" title="Strategy Benchmark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+        <span>Strategy Benchmark</span>
+      </a>
+      <a href="#market-watchlist" id="nav-link-watchlist" class="sidebar-link" title="Live Watchlist">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        <span>Live Watchlist</span>
+      </a>
+      <a href="#market-news" id="nav-link-news" class="sidebar-link" title="Market News">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"></path><path d="M18 14h-8"></path><path d="M15 18h-5"></path><path d="M10 6h8v4h-8V6Z"></path></svg>
+        <span>Market News</span>
+      </a>
+    </div>
+
+    <div class="sidebar-menu-group sidebar-bottom-group">
+      <div class="sidebar-label">System</div>
+      <a href="#settings" id="nav-link-settings" class="sidebar-link" title="Settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        <span>Settings</span>
+      </a>
+      <a href="/docs" target="_blank" class="sidebar-link" title="FastAPI Documentation">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        <span>FastAPI Docs</span>
+      </a>
+      <div class="sidebar-engine-card">
+        <div class="engine-status-row">
+          <span class="pulse-dot"></span>
+          <span class="engine-title">AI Engine v2.4</span>
+        </div>
+        <p class="engine-sub">PyTorch &amp; XGBoost Walk-Forward Online</p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ─────────────────── MAIN VIEW CONTAINER ─────────────────── -->
+  <div class="app-main-wrapper">
+
+    <!-- ─────────────────── TOP NAVBAR ─────────────────── -->
+    <header class="glass-navbar site-header">
+      <div class="navbar-left">
+        <button class="mobile-sidebar-toggle" id="sidebar-toggle" aria-label="Toggle Sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+        <div class="market-status-pills-wrap" id="market-status-pills-wrap">
+          <div class="market-status-pill market-closed" id="pill-nse-status" title="National Stock Exchange of India (NSE / BSE)">
+            <span class="mkt-tag nse">NSE/BSE</span>
+            <span class="status-indicator-dot" id="nse-status-dot"></span>
+            <span class="status-pill-text" id="nse-status-text">Closed</span>
+          </div>
+          <div class="market-status-pill market-open" id="pill-us-status" title="US Markets (NYSE / NASDAQ)">
+            <span class="mkt-tag us">US</span>
+            <span class="status-indicator-dot" id="us-status-dot"></span>
+            <span class="status-pill-text" id="us-status-text">Open</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="navbar-right">
+        <div class="quick-shortcut-badge" onclick="document.getElementById('ticker-input').focus()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-nav-icon"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <span class="shortcut-label">Search</span>
+          <kbd class="kbd-shortcut">Ctrl K</kbd>
+        </div>
+        <div class="notification-wrap">
+          <button id="btn-notifications" class="nav-action-btn" title="System Notifications" aria-label="Notifications">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="nav-svg"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            <span class="notification-ping hidden" id="notif-ping-dot"></span>
+            <span class="notif-badge-count hidden" id="notif-count-badge">0</span>
+          </button>
+          <div id="notifications-dropdown" class="notifications-dropdown hidden">
+            <div class="notif-dropdown-header">
+              <div class="notif-header-title">
+                <span>Alerts &amp; Intelligence</span>
+                <span class="notif-unread-tag" id="notif-unread-text">0 Unread</span>
+              </div>
+              <div class="notif-header-actions">
+                <button id="btn-notif-mark-read" class="notif-btn-action" title="Mark all alerts as read">Mark all read</button>
+                <button id="btn-notif-clear" class="notif-btn-action notif-btn-clear" title="Clear all alerts">Clear</button>
+              </div>
+            </div>
+            <div class="notif-list" id="notif-list-container">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+        <div class="user-profile-pill">
+          <div class="avatar-circle">Q</div>
+          <div class="user-info">
+            <span class="user-name">QuantView AI</span>
+            <span class="user-plan">Institutional tier</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ─────────────────── DASHBOARD CONTENT ─────────────────── -->
+    <main class="dashboard-main">
+
+      <!-- Welcome Hero Banner -->
+      <section class="welcome-banner glass">
+        <div class="banner-content">
+          <div class="banner-tag">
+            <span class="badge-sparkle">✨</span>
+            <span>Next-Gen Machine Learning Quantitative Trading Intelligence</span>
+          </div>
+          <h1 class="banner-title">Multi-Market Stock Intelligence &amp; Walk-Forward Backtesting</h1>
+          <p class="banner-desc">Institutional-grade ensemble model combining PyTorch LSTM sequential memory, Purged XGBoost, and SHAP Shapley explainability across ~20 trading sessions.</p>
+        </div>
+        <div class="banner-stat-badge">
+          <div class="bs-row"><span class="bs-dot"></span> <strong>Walk-Forward Calibration:</strong> 3-Fold Purged</div>
+          <div class="bs-row"><span class="bs-dot"></span> <strong>Validation Embargo:</strong> 20 Sessions</div>
+          <div class="bs-row"><span class="bs-dot"></span> <strong>Target Horizon:</strong> T+20 Days (~1 Month)</div>
+        </div>
+      </section>
+
+      <!-- Market Overview Ticker Ribbon (Benchmark Indices) -->
+      <section class="market-ribbon-grid" id="market-ribbon-section">
+        <div class="market-chip glass" id="chip-nifty" data-ticker="^NSEI" role="button" tabindex="0" title="Click to analyze NIFTY 50 Benchmark Index">
+          <div class="chip-top">
+            <span class="chip-name">NIFTY 50</span>
+            <span class="chip-flag">🇮🇳</span>
+          </div>
+          <div class="chip-bottom">
+            <span class="chip-price" id="chip-nifty-price">—</span>
+            <span class="chip-change" id="chip-nifty-change">Live</span>
+          </div>
+          <svg class="chip-sparkline" viewBox="0 0 100 24"><path d="M0,18 Q20,15 40,20 T70,8 T100,4" fill="none" stroke="#22c55e" stroke-width="2"></path></svg>
+        </div>
+        <div class="market-chip glass" id="chip-sensex" data-ticker="^BSESN" role="button" tabindex="0" title="Click to analyze BSE SENSEX Benchmark Index">
+          <div class="chip-top">
+            <span class="chip-name">SENSEX</span>
+            <span class="chip-flag">🇮🇳</span>
+          </div>
+          <div class="chip-bottom">
+            <span class="chip-price" id="chip-sensex-price">—</span>
+            <span class="chip-change" id="chip-sensex-change">Live</span>
+          </div>
+          <svg class="chip-sparkline" viewBox="0 0 100 24"><path d="M0,16 Q25,18 50,12 T80,6 T100,5" fill="none" stroke="#22c55e" stroke-width="2"></path></svg>
+        </div>
+        <div class="market-chip glass" id="chip-sp500" data-ticker="^GSPC" role="button" tabindex="0" title="Click to analyze S&P 500 Benchmark Index">
+          <div class="chip-top">
+            <span class="chip-name">S&amp;P 500</span>
+            <span class="chip-flag">🇺🇸</span>
+          </div>
+          <div class="chip-bottom">
+            <span class="chip-price" id="chip-sp500-price">—</span>
+            <span class="chip-change" id="chip-sp500-change">Live</span>
+          </div>
+          <svg class="chip-sparkline" viewBox="0 0 100 24"><path d="M0,19 Q30,14 60,16 T100,6" fill="none" stroke="#22c55e" stroke-width="2"></path></svg>
+        </div>
+        <div class="market-chip glass" id="chip-nasdaq" data-ticker="^NDX" role="button" tabindex="0" title="Click to analyze NASDAQ 100 Benchmark Index">
+          <div class="chip-top">
+            <span class="chip-name">NASDAQ 100</span>
+            <span class="chip-flag">🇺🇸</span>
+          </div>
+          <div class="chip-bottom">
+            <span class="chip-price" id="chip-nasdaq-price">—</span>
+            <span class="chip-change" id="chip-nasdaq-change">Live</span>
+          </div>
+          <svg class="chip-sparkline" viewBox="0 0 100 24"><path d="M0,20 Q25,17 50,11 T85,8 T100,3" fill="none" stroke="#22c55e" stroke-width="2"></path></svg>
+        </div>
+      </section>
+
+      <!-- ─────────────────── SEARCH SECTION ─────────────────── -->
+      <section class="search-section" id="search-section">
+        <div class="search-card glass">
+          <div class="search-title-row">
+            <h2 class="search-card-title">QUANTITATIVE STOCK &amp; ETF ANALYZER</h2>
+            <span class="search-subtag">Enter any NSE/BSE Indian stock or US ticker</span>
+          </div>
+          <div class="search-row">
+            <div class="search-input-wrap">
+              <span class="search-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" class="search-svg-icon"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              </span>
+              <input
+                id="ticker-input"
+                type="text"
+                class="search-input"
+                placeholder="Search stock or ETF (e.g. RELIANCE, AAPL, TCS, QQQ, NVDA, INFY)..."
+                autocomplete="off"
+                spellcheck="false"
+              />
+              <span class="input-clear-hint">Press Enter ↵</span>
+
+              <!-- Autocomplete Dropdown -->
+              <div id="search-autocomplete-dropdown" class="search-autocomplete-dropdown hidden">
+                <div class="search-auto-header">Matching Assets</div>
+                <div id="search-auto-results" class="search-auto-results"></div>
+              </div>
+            </div>
+            <button id="analyze-btn" class="btn-analyze">
+              <span>Run AI Intelligence</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" class="btn-arrow-icon"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+          </div>
+
+          <!-- Quick-picks -->
+          <div class="quickpicks">
+            <div class="qp-section">
+              <span class="qp-label">🇮🇳 Indian Leaders</span>
+              <div class="qp-row">
+                <button class="qp-btn" data-ticker="RELIANCE">RELIANCE</button>
+                <button class="qp-btn" data-ticker="TCS">TCS</button>
+                <button class="qp-btn" data-ticker="INFY">INFY</button>
+                <button class="qp-btn" data-ticker="HDFCBANK">HDFCBANK</button>
+                <button class="qp-btn" data-ticker="ICICIBANK">ICICIBANK</button>
+                <button class="qp-btn" data-ticker="SBIN">SBIN</button>
+                <button class="qp-btn" data-ticker="ITC">ITC</button>
+                <button class="qp-btn" data-ticker="NIFTYBEES.NS">NIFTYBEES</button>
+              </div>
+            </div>
+            <div class="qp-section">
+              <span class="qp-label">🇺🇸 US &amp; Global Titans</span>
+              <div class="qp-row">
+                <button class="qp-btn" data-ticker="AAPL">AAPL</button>
+                <button class="qp-btn" data-ticker="TSLA">TSLA</button>
+                <button class="qp-btn" data-ticker="NVDA">NVDA</button>
+                <button class="qp-btn" data-ticker="SPY">SPY</button>
+                <button class="qp-btn" data-ticker="QQQ">QQQ</button>
+                <button class="qp-btn" data-ticker="MSFT">MSFT</button>
+                <button class="qp-btn" data-ticker="AMZN">AMZN</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─────────────────── LOADING STATE ─────────────────── -->
+      <section id="loading-state" class="hidden">
+        <div class="loading-card glass">
+          <div class="loading-spinner-ring">
+            <div class="spinner-ring-inner"></div>
+          </div>
+          <h3 class="loading-title" id="loading-title">Analyzing Asset Pipeline</h3>
+          <p id="loading-timer" class="loading-timer">Elapsed: 0s</p>
+          <div class="loading-steps">
+            <div id="ls-fetch"      class="ls-row"><span class="ls-dot"></span>Downloading market data</div>
+            <div id="ls-indicators" class="ls-row"><span class="ls-dot"></span>Engineering features &amp; indicators</div>
+            <div id="ls-regime"     class="ls-row"><span class="ls-dot"></span>Classifying market regime &amp; volatility</div>
+            <div id="ls-backtest"   class="ls-row"><span class="ls-dot"></span>3-Fold Purged Walk-Forward validation</div>
+            <div id="ls-train"      class="ls-row"><span class="ls-dot"></span>Generating ensemble prediction</div>
+            <div id="ls-predict"    class="ls-row"><span class="ls-dot"></span>Calculating SHAP explanation &amp; preparing results</div>
+          </div>
+          <p class="loading-note">Cold-start model training (XGBoost + LSTM + 3-Fold Purged Walk-Forward) on 5-year data may take up to 2 minutes on first run. Subsequent queries resolve instantly from cache.</p>
+        </div>
+      </section>
+
+      <!-- ─────────────────── ERROR STATE ─────────────────── -->
+      <section id="error-state" class="hidden">
+        <div class="error-card glass">
+          <div class="error-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+          </div>
+          <h3 class="error-heading">Analysis Temporarily Unavailable</h3>
+          <p id="error-msg" class="error-msg">An error occurred while fetching or processing the requested ticker.</p>
+          <div class="error-causes-box" style="margin: 1rem 0; font-size: 0.85rem; color: var(--text-2); text-align: left; background: rgba(255,255,255,0.03); padding: 0.85rem 1.25rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
+            <div style="font-weight: 600; margin-bottom: 0.35rem; color: var(--text-1);">Possible causes:</div>
+            <div>• Market data provider temporarily unavailable or rate-limited</div>
+            <div>• Insufficient historical trading data (minimum 250 trading bars required)</div>
+            <div>• Symbol invalid or not supported by market data feed</div>
+            <div>• Temporary server capacity or network timeout</div>
+          </div>
+          <button id="error-retry" class="btn-secondary">Try Again</button>
+        </div>
+      </section>
+
+      <!-- ─────────────────── RESULTS PANEL ─────────────────── -->
+      <section id="result-panel" class="hidden">
+
+        <!-- Top KPI Metric Summary Cards -->
+        <div class="kpi-summary-grid">
+          <div class="kpi-card glass">
+            <div class="kpi-top">
+              <span class="kpi-label">AI Recommendation</span>
+              <div class="kpi-icon-wrap icon-blue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              </div>
+            </div>
+            <div class="kpi-val" id="kpi-rec-val">—</div>
+            <div class="kpi-foot">
+              <span class="kpi-sub" id="kpi-rec-sub">Ensemble Multi-Model Consensus</span>
+            </div>
+          </div>
+
+          <div class="kpi-card glass">
+            <div class="kpi-top">
+              <span class="kpi-label">Win Probability</span>
+              <div class="kpi-icon-wrap icon-green">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>
+              </div>
+            </div>
+            <div class="kpi-val" id="kpi-prob-val">—</div>
+            <div class="kpi-foot">
+              <span class="kpi-badge-pill" id="kpi-prob-sub">Stacked Logistic Layer</span>
+            </div>
+          </div>
+
+          <div class="kpi-card glass">
+            <div class="kpi-top">
+              <span class="kpi-label">Signal Confidence</span>
+              <div class="kpi-icon-wrap icon-purple">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              </div>
+            </div>
+            <div class="kpi-val" id="kpi-conf-val">—</div>
+            <div class="kpi-foot">
+              <span class="kpi-sub" id="kpi-conf-sub">Composite Signal Confidence</span>
+            </div>
+          </div>
+
+          <div class="kpi-card glass">
+            <div class="kpi-top">
+              <span class="kpi-label">Target Horizon</span>
+              <div class="kpi-icon-wrap icon-amber">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              </div>
+            </div>
+            <div class="kpi-val">~20 Days</div>
+            <div class="kpi-foot">
+              <span class="kpi-sub" id="kpi-regime-sub">T+20 Trading Sessions</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- HERO Card (Institutional Asset Header) -->
+        <div class="card glass hero-card">
+          <div class="hero-identity-section">
+            <div class="asset-logo-container" id="hero-logo-wrap">
+              <img id="hero-company-logo" class="asset-logo-img" alt="Official Logo" loading="lazy" />
+            </div>
+            <div class="hero-title-stack">
+              <!-- Top Row: Name + Badges + Watchlist Action -->
+              <div class="hero-name-badge-row">
+                <h1 id="res-company-name" class="hero-company-name">—</h1>
+                <span id="res-ticker" class="hero-ticker-tag">—</span>
+                <div id="market-badge" class="market-badge">
+                  <span id="mb-exchange">—</span>
+                  <span class="mb-sep">•</span>
+                  <span id="mb-country">—</span>
+                  <span id="mb-etf-wrap" class="hidden"><span class="mb-sep">•</span><span id="mb-etf">ETF</span></span>
+                </div>
+                <div class="hero-actions-cluster">
+                  <button id="btn-hero-add-watchlist" class="btn-hero-watchlist" title="Add to Live Watchlist">
+                    <span class="wl-star-icon">⭐</span>
+                    <span id="hero-watchlist-text">+ Watchlist</span>
+                  </button>
+                  <div class="hero-menu-wrap">
+                    <button id="hero-three-dots-btn" class="hero-three-dots-btn" title="Stock Actions" aria-label="Stock Actions">
+                      <svg viewBox="0 0 24 24" fill="currentColor" class="three-dots-svg"><circle cx="12" cy="5" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="12" cy="19" r="2"></circle></svg>
+                    </button>
+                    <div id="hero-action-dropdown" class="hero-action-dropdown hidden">
+                      <button class="hero-dropdown-item" id="action-copy-ticker">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        <span>Copy Ticker</span>
+                      </button>
+                      <button class="hero-dropdown-item" id="action-view-tradingview">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>
+                        <span>TradingView Chart</span>
+                      </button>
+                      <button class="hero-dropdown-item" id="action-view-yahoo">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                        <span>Yahoo Finance</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Bottom Meta Row: Sector / Benchmark, Horizon & Freshness -->
+              <div class="hero-subline-row">
+                <span id="res-sector" class="hero-sector-tag">—</span>
+                <span class="hero-dot-sep">•</span>
+                <span id="cache-note" class="hero-cache-status">—</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero Right: Price + Rec Badge + Win Probability Callout -->
+          <div class="hero-stats-section">
+            <div class="hero-price-rec-group">
+              <span id="res-price" class="hero-price">—</span>
+              <div id="rec-badge" class="rec-badge">—</div>
+            </div>
+            <div class="hero-substats-group">
+              <div class="prob-tag-pill">
+                <span class="prob-label">AI Win Prob:</span>
+                <span id="res-prob" class="prob-val">—</span>
+                <button class="info-btn" data-info="ensemble_probability" aria-label="What is Ensemble Probability?">ⓘ</button>
+              </div>
+              <span class="hero-dot-sep">•</span>
+              <div class="horizon-tag-pill">
+                <span>Horizon: <strong>~20 Sessions</strong></span>
+                <button class="info-btn" data-info="t20_horizon" aria-label="What is the ~20 trading sessions forecast horizon?">ⓘ</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Groww-Style Interactive Stock Price Chart -->
+        <div class="card glass stock-chart-card" id="stock-chart-card">
+          <div class="chart-header-row">
+            <div class="chart-header-info">
+              <div class="chart-card-title-row">
+                <h2 class="card-title" style="margin-bottom: 0;">INTERACTIVE STOCK PRICE HISTORY <button class="info-btn" data-info="stock_chart" aria-label="What is Stock Price History?">ⓘ</button></h2>
+              </div>
+              <div class="chart-live-price-wrap">
+                <span id="chart-display-price" class="chart-display-price">—</span>
+                <span id="chart-price-diff" class="chart-price-diff">—</span>
+              </div>
+              <p id="chart-display-date" class="chart-display-date">Hover or drag across the chart to inspect precise price action</p>
+            </div>
+            <div class="timeframe-selector" id="timeframe-selector">
+              <button class="tf-btn" data-tf="1M">1M</button>
+              <button class="tf-btn" data-tf="3M">3M</button>
+              <button class="tf-btn" data-tf="6M">6M</button>
+              <button class="tf-btn active" data-tf="1Y">1Y</button>
+              <button class="tf-btn" data-tf="3Y">3Y</button>
+              <button class="tf-btn" data-tf="5Y">5Y</button>
+              <button class="tf-btn" data-tf="ALL">ALL</button>
+            </div>
+          </div>
+
+          <!-- Chart Canvas & SVG Stage with Groww Interactive Crosshair -->
+          <div class="groww-chart-stage" id="groww-chart-stage">
+            <svg id="groww-chart-svg" class="groww-chart-svg" viewBox="0 0 850 280" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="groww-area-grad-green" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#22c55e" stop-opacity="0.38" />
+                  <stop offset="100%" stop-color="#22c55e" stop-opacity="0.0" />
+                </linearGradient>
+                <linearGradient id="groww-area-grad-red" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#ef4444" stop-opacity="0.38" />
+                  <stop offset="100%" stop-color="#ef4444" stop-opacity="0.0" />
+                </linearGradient>
+              </defs>
+              <g id="groww-grid-layer"></g>
+              <path id="groww-area-path" fill="url(#groww-area-grad-green)" d="" />
+              <path id="groww-line-path" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="" />
+              <path id="groww-sma50-path" fill="none" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="4 3" d="" />
+              <path id="groww-sma200-path" fill="none" stroke="#a78bfa" stroke-width="1.2" stroke-dasharray="4 3" d="" />
+
+              <!-- Interactive Pointer Lines & Dot -->
+              <g id="groww-crosshair-group" style="display: none;">
+                <line id="groww-crosshair-v" class="groww-pointer-v" x1="0" y1="10" x2="0" y2="250" />
+                <line id="groww-crosshair-h" class="groww-pointer-h" x1="50" y1="0" x2="830" y2="0" />
+                <circle id="groww-pointer-dot-outer" class="groww-pointer-dot-pulse" cx="0" cy="0" r="7" />
+                <circle id="groww-pointer-dot-inner" class="groww-pointer-dot" cx="0" cy="0" r="3.5" />
+              </g>
+            </svg>
+
+            <!-- HTML Interactive Axis Badges & Floating Tooltip -->
+            <div id="groww-badge-x" class="groww-axis-badge groww-badge-x" style="display: none;"></div>
+            <div id="groww-badge-y" class="groww-axis-badge groww-badge-y" style="display: none;"></div>
+            <div id="groww-tooltip-card" class="groww-tooltip-card" style="display: none;">
+              <div class="gt-header" id="gt-date">—</div>
+              <div class="gt-row"><span class="gt-lbl">Close:</span> <strong id="gt-close" class="gt-val">—</strong></div>
+              <div class="gt-row"><span class="gt-lbl">Open:</span> <span id="gt-open" class="gt-sub">—</span></div>
+              <div class="gt-row" id="gt-sma-row"><span class="gt-lbl">SMA 50 / 200:</span> <span id="gt-sma" class="gt-sub">—</span></div>
+            </div>
+          </div>
+          
+          <div class="chart-footer-row">
+            <div class="chart-indicators-legend">
+              <span class="c-legend-item"><span class="c-legend-line line-main"></span> Close Price</span>
+              <span class="c-legend-item"><span class="c-legend-line line-sma50"></span> SMA 50</span>
+              <span class="c-legend-item"><span class="c-legend-line line-sma200"></span> SMA 200</span>
+            </div>
+            <div class="chart-hint-note">Desktop: Hover · Mobile: Touch &amp; Drag</div>
+          </div>
+        </div>
+
+        <!-- Confidence + Models row -->
+        <div class="cards-row">
+
+          <!-- Confidence gauge -->
+          <div class="card glass">
+            <h2 class="card-title">CONFIDENCE SCORE <button class="info-btn" data-info="confidence" aria-label="What is Confidence?">ⓘ</button></h2>
+            <div class="gauge-wrap">
+              <svg viewBox="0 0 160 90" class="gauge-svg">
+                <path d="M 10 80 A 70 70 0 0 1 150 80" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="12" stroke-linecap="round"/>
+                <path id="gauge-fill" d="M 10 80 A 70 70 0 0 1 150 80" fill="none" stroke="#22c55e" stroke-width="12" stroke-linecap="round"
+                  style="stroke-dasharray:0 220; stroke-dashoffset:0; transition: stroke-dasharray 0.8s ease, stroke 0.5s"/>
+              </svg>
+              <div class="gauge-center">
+                <span id="gauge-val" class="gauge-num">—</span>
+                <span id="gauge-lbl" class="gauge-label">—</span>
+              </div>
+            </div>
+            <div class="conf-note">
+              Confidence reflects signal clarity across components, not a probability of being correct.
+            </div>
+            <div class="conf-bars">
+              <div class="conf-row"><span class="cr-lbl">Probability Strength <button class="info-btn" data-info="probability_strength" aria-label="What is Probability Strength?">ⓘ</button></span><div class="cr-bar-bg"><div id="cc-prob"   class="cr-bar"></div></div><span id="cc-prob-pct"   class="cr-pct">—</span></div>
+              <div class="conf-row"><span class="cr-lbl">Volatility Component <button class="info-btn" data-info="atr_pct" aria-label="What is the Volatility confidence component?">ⓘ</button></span>          <div class="cr-bar-bg"><div id="cc-vol"    class="cr-bar"></div></div><span id="cc-vol-pct"    class="cr-pct">—</span></div>
+              <div class="conf-row"><span class="cr-lbl">Data Quality <button class="info-btn" data-info="data_quality" aria-label="What is Data Quality?">ⓘ</button></span>        <div class="cr-bar-bg"><div id="cc-data"   class="cr-bar"></div></div><span id="cc-data-pct"   class="cr-pct">—</span></div>
+              <div class="conf-row"><span class="cr-lbl">Regime Clarity <button class="info-btn" data-info="regime_clarity" aria-label="What is Regime Clarity?">ⓘ</button></span>      <div class="cr-bar-bg"><div id="cc-regime" class="cr-bar"></div></div><span id="cc-regime-pct" class="cr-pct">—</span></div>
+              <div class="conf-row"><span class="cr-lbl">Model Agreement <button class="info-btn" data-info="model_agreement" aria-label="What is Model Agreement?">ⓘ</button></span>     <div class="cr-bar-bg"><div id="cc-agree"  class="cr-bar"></div></div><span id="cc-agree-pct"  class="cr-pct">—</span></div>
+            </div>
+          </div>
+
+          <!-- ML Ensemble -->
+          <div class="card glass">
+            <h2 class="card-title">ML ENSEMBLE ARCHITECTURE <button class="info-btn" data-info="xgb_coefficient" aria-label="What are the stacking coefficients?">ⓘ</button></h2>
+            <div class="model-status-strip" style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
+              <span class="ms-pill ms-active" id="ms-xgb" style="font-size: 0.72rem; padding: 0.2rem 0.55rem; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 4px; color: #38bdf8;">XGBoost: <strong>Active</strong></span>
+              <span class="ms-pill" id="ms-lstm" style="font-size: 0.72rem; padding: 0.2rem 0.55rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 4px; color: var(--text-3);">LSTM: <strong>Unavailable</strong></span>
+              <span class="ms-pill ms-active" id="ms-stack" style="font-size: 0.72rem; padding: 0.2rem 0.55rem; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 4px; color: #22c55e;">Logistic Stack: <strong>Active</strong></span>
+              <span class="ms-pill ms-active" id="ms-shap" style="font-size: 0.72rem; padding: 0.2rem 0.55rem; background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 4px; color: #a855f7;">SHAP: <strong>Active</strong></span>
+              <span class="ms-pill ms-active" id="ms-wf" style="font-size: 0.72rem; padding: 0.2rem 0.55rem; background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 4px; color: #fbbf24;">Walk-Forward: <strong>3-Fold Purged</strong></span>
+            </div>
+            <div class="model-rows">
+              <div class="model-row">
+                <span class="model-name">XGBoost (Tabular) <button class="info-btn" data-info="xgboost" aria-label="What is XGBoost?">ⓘ</button></span>
+                <div class="model-bar-bg"><div id="model-xgb-bar" class="model-bar bar-xgb"></div></div>
+                <span id="model-xgb" class="model-prob">—</span>
+              </div>
+              <div class="model-row">
+                <span class="model-name">LSTM (Sequence) <button class="info-btn" data-info="lstm" aria-label="What is LSTM?">ⓘ</button></span>
+                <div class="model-bar-bg"><div id="model-lstm-bar" class="model-bar bar-lstm"></div></div>
+                <span id="model-lstm" class="model-prob">—</span>
+              </div>
+              <div class="model-row model-ens-row">
+                <span class="model-name">Stacked Ensemble <button class="info-btn" data-info="ensemble" aria-label="What is the Ensemble?">ⓘ</button></span>
+                <div class="model-bar-bg"><div id="model-ens-bar" class="model-bar bar-ens"></div></div>
+                <span id="model-ens" class="model-prob">—</span>
+              </div>
+            </div>
+            <p id="lstm-note" class="lstm-note"></p>
+            <p id="coeff-note" class="coeff-note"></p>
+          </div>
+        </div>
+
+        <!-- Why this recommendation? (SHAP Feature Contributions) -->
+        <div class="card glass" id="shap-card">
+          <div class="card-header-flex">
+            <h2 class="card-title">WHY THIS RECOMMENDATION? — SHAP EXPLAINABILITY <button class="info-btn" data-info="shap_explainability" aria-label="What is SHAP Explainability?">ⓘ</button></h2>
+            <span class="card-subtag">Feature contributions to XGBoost prediction</span>
+          </div>
+          <div id="shap-content">
+            <div class="shap-grid">
+              <!-- Positive Contributors -->
+              <div class="shap-col">
+                <div class="shap-col-header green-header">
+                  <span>Top Positive Contributors (Bullish) <button class="info-btn" data-info="shap_positive" aria-label="What are positive contributors?">ⓘ</button></span>
+                </div>
+                <div id="shap-pos-list" class="shap-list"></div>
+              </div>
+              <!-- Negative Contributors -->
+              <div class="shap-col">
+                <div class="shap-col-header red-header">
+                  <span>Top Negative Contributors (Bearish) <button class="info-btn" data-info="shap_negative" aria-label="What are negative contributors?">ⓘ</button></span>
+                </div>
+                <div id="shap-neg-list" class="shap-list"></div>
+              </div>
+            </div>
+            <p id="shap-summary" class="shap-summary-note"></p>
+          </div>
+          <div id="shap-unavailable" class="hidden shap-unavail-note"></div>
+        </div>
+
+        <!-- Signals + Regime row -->
+        <div class="cards-row">
+
+          <!-- Signal breakdown -->
+          <div class="card glass">
+            <h2 class="card-title">SIGNAL BREAKDOWN <button class="info-btn" data-info="signal_breakdown" aria-label="What is Signal Breakdown?">ⓘ</button></h2>
+            <div id="signals-grid" class="signals-grid"></div>
+          </div>
+
+          <!-- Market regime -->
+          <div class="card glass">
+            <h2 class="card-title">MARKET REGIME <button class="info-btn" data-info="market_regime" aria-label="What is Market Regime?">ⓘ</button></h2>
+            <div id="regime-badge" class="regime-badge">—</div>
+            <div class="rs-bar-wrap">
+              <div class="rs-bar-bg"><div id="rs-bar" class="rs-bar"></div></div>
+              <span id="rs-pct" class="rs-pct">—</span>
+            </div>
+            <div class="stat-grid">
+              <div class="stat-row"><span class="stat-lbl">ADX Trend Strength <button class="info-btn" data-info="adx" aria-label="What is ADX?">ⓘ</button></span><span id="stat-adx" class="stat-val">—</span></div>
+              <div class="stat-row"><span class="stat-lbl">+DI / -DI Directional <button class="info-btn" data-info="di" aria-label="What are +DI and -DI?">ⓘ</button></span><span id="stat-di" class="stat-val">—</span></div>
+              <div class="stat-row"><span class="stat-lbl">SMA 200 Slope <button class="info-btn" data-info="sma200_slope" aria-label="What is SMA200 Slope?">ⓘ</button></span><span id="stat-slope" class="stat-val">—</span></div>
+              <div class="stat-row"><span class="stat-lbl">Choppy Shrink Factor <button class="info-btn" data-info="choppy_shrink" aria-label="What is Choppy Shrink?">ⓘ</button></span><span id="stat-shrink" class="stat-val">—</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Volatility + Valuation row -->
+        <div class="cards-row">
+
+          <!-- Volatility -->
+          <div class="card glass">
+            <h2 class="card-title">VOLATILITY METRICS <button class="info-btn" data-info="volatility_card" aria-label="What is Volatility?">ⓘ</button></h2>
+            <div class="stat-grid">
+              <div class="stat-row"><span class="stat-lbl">Annualised Volatility <button class="info-btn" data-info="ann_vol" aria-label="What is Annualised Volatility?">ⓘ</button></span>   <span id="stat-annvol"  class="stat-val">—</span></div>
+              <div class="stat-row"><span class="stat-lbl">ATR (Daily Range) <button class="info-btn" data-info="atr" aria-label="What is ATR?">ⓘ</button></span>              <span id="stat-atr"     class="stat-val">—</span></div>
+              <div class="stat-row"><span class="stat-lbl">ATR % of Price <button class="info-btn" data-info="atr_pct" aria-label="What is ATR %?">ⓘ</button></span>            <span id="stat-atr-pct" class="stat-val">—</span></div>
+              <div class="stat-row"><span class="stat-lbl">14-Day RSI <button class="info-btn" data-info="rsi" aria-label="What is RSI?">ⓘ</button></span>              <span id="stat-rsi"     class="stat-val">—</span></div>
+              <div class="stat-row"><span class="stat-lbl">Adaptive Buy Level <button class="info-btn" data-info="adaptive_buy" aria-label="What is the Adaptive Buy threshold?">ⓘ</button></span>     <span id="stat-rsi-buy"  class="stat-val green">—</span></div>
+              <div class="stat-row"><span class="stat-lbl">Adaptive Sell Level <button class="info-btn" data-info="adaptive_sell" aria-label="What is the Adaptive Sell threshold?">ⓘ</button></span>    <span id="stat-rsi-sell" class="stat-val red">—</span></div>
+            </div>
+          </div>
+
+          <!-- Valuation -->
+          <div class="card glass">
+            <h2 class="card-title">VALUATION <button class="info-btn" data-info="valuation" aria-label="What is Valuation?">ⓘ</button></h2>
+            <div id="val-content">
+              <div class="stat-grid">
+                <div class="stat-row"><span class="stat-lbl">P/E Ratio <button class="info-btn" data-info="pe_ratio" aria-label="What is P/E Ratio?">ⓘ</button></span>          <span id="vc-pe"   class="stat-val">—</span></div>
+                <div class="stat-row"><span class="stat-lbl">Peer Median P/E <button class="info-btn" data-info="peer_pe" aria-label="What is Peer Median P/E?">ⓘ</button></span>    <span id="vc-spe"  class="stat-val">—</span></div>
+                <div class="stat-row"><span class="stat-lbl">Relative P/E Discount/Premium <button class="info-btn" data-info="relative_pe" aria-label="What is Relative P/E?">ⓘ</button></span>       <span id="per-val" class="stat-val">—</span></div>
+              </div>
+              <p id="val-peer-label" class="val-peer-label">—</p>
+            </div>
+            <p class="val-note">⚠ Live rule-based signal — not used in historical ML training</p>
+          </div>
+        </div>
+
+        
+        <!-- Institutional & Fundamental Intelligence (6-Card Grid) -->
+        <div class="card glass institutional-card" id="institutional-section">
+          <div class="card-header-flex">
+            <div>
+              <h2 class="card-title" id="inst-section-title">INSTITUTIONAL &amp; FUNDAMENTAL INTELLIGENCE <button class="info-btn" data-info="institutional_intelligence" aria-label="What is Institutional Intelligence?">ⓘ</button></h2>
+              <span class="card-subtag" id="inst-section-subtag">Analyst Consensus · Revenue Forecast · Valuation · Margins</span>
+            </div>
+          </div>
+          <div id="inst-etf-banner" class="hidden" style="margin-top: 0.75rem; margin-bottom: 0.75rem; padding: 0.6rem 0.85rem; background: rgba(56, 189, 248, 0.08); border-left: 3px solid #38bdf8; border-radius: 4px; font-size: 0.76rem; color: var(--text-2); line-height: 1.4;">ETF and index funds represent diversified portfolios rather than individual companies. Therefore, this section displays fund-level intelligence instead of company fundamentals.</div>
+          <div class="inst-cards-grid">
+            <!-- Card 1: Analyst Consensus / ETF Overview -->
+            <div class="inst-mini-card">
+              <div class="inst-card-header">
+                <span class="inst-title" id="inst-card1-cat">Analyst</span>
+                <span class="inst-arrow">›</span>
+              </div>
+              <div class="inst-sub-label hidden" id="inst-card1-lbl">Overview</div>
+              <div class="inst-main-row">
+                <span class="inst-val-highlight green" id="inst-analyst-rating">BUY</span>
+                <div class="inst-gauge-wrap" id="inst-card1-gauge">
+                  <svg viewBox="0 0 54 28" class="inst-gauge-svg">
+                    <path d="M 4 25 A 23 23 0 0 1 50 25" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="4" stroke-linecap="round"/>
+                    <path id="inst-gauge-path" d="M 4 25 A 23 23 0 0 1 50 25" fill="none" stroke="#10b981" stroke-width="4" stroke-linecap="round" stroke-dasharray="72.2" stroke-dashoffset="18"/>
+                    <circle cx="27" cy="25" r="2.5" fill="#ffffff"/>
+                    <line id="inst-gauge-needle" x1="27" y1="25" x2="38" y2="10" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="inst-sub-text" id="inst-analyst-count">—</div>
+            </div>
+
+            <!-- Card 2: Analyst Target Price / Benchmark Tracking -->
+            <div class="inst-mini-card">
+              <div class="inst-card-header">
+                <span class="inst-title" id="inst-card2-cat">Analyst</span>
+                <span class="inst-arrow">›</span>
+              </div>
+              <div class="inst-sub-label" id="inst-card2-lbl">Target Price</div>
+              <div class="inst-main-row">
+                <span class="inst-val-bold" id="inst-target-price">—</span>
+              </div>
+              <div class="inst-sub-text" id="inst-target-analysts">—</div>
+            </div>
+
+            <!-- Card 3: Earnings Revenue Forecast / Fund Characteristics -->
+            <div class="inst-mini-card">
+              <div class="inst-card-header">
+                <span class="inst-title" id="inst-card3-cat">Earnings</span>
+                <span class="inst-arrow">›</span>
+              </div>
+              <div class="inst-sub-label" id="inst-card3-lbl">Revenue Forecast</div>
+              <div class="inst-main-row">
+                <span class="inst-val-direction" id="inst-rev-forecast">
+                  <span class="inst-arrow-icon" id="inst-rev-arrow">→</span>
+                  <span id="inst-rev-label" class="cyan">Stable</span>
+                </span>
+              </div>
+              <div class="inst-sub-text" id="inst-rev-sub">Next quarter</div>
+            </div>
+
+            <!-- Card 4: Financials & P/S Valuation / Portfolio Valuation -->
+            <div class="inst-mini-card">
+              <div class="inst-card-header">
+                <span class="inst-title" id="inst-card4-cat">Financials</span>
+                <span class="inst-arrow">›</span>
+              </div>
+              <div class="inst-sub-label" id="inst-card4-lbl">P/S Valuation</div>
+              <div class="inst-main-row">
+                <span class="inst-val-badge green" id="inst-ps-badge">Fair P/S</span>
+              </div>
+              <div class="inst-sub-bold" id="inst-ps-val">—</div>
+            </div>
+
+            <!-- Card 5: Trading Volume / Liquidity -->
+            <div class="inst-mini-card">
+              <div class="inst-card-header">
+                <span class="inst-title" id="inst-card5-cat">Trading</span>
+                <span class="inst-arrow">›</span>
+              </div>
+              <div class="inst-sub-label" id="inst-card5-lbl">Trading Volume</div>
+              <div class="inst-main-row">
+                <span class="inst-val-bold" id="inst-vol-val">—</span>
+              </div>
+              <div class="inst-sub-text" id="inst-vol-sub">Relative Volume: 1.0x</div>
+            </div>
+
+            <!-- Card 6: Profitability & Gross Margin / Portfolio Composition -->
+            <div class="inst-mini-card">
+              <div class="inst-card-header">
+                <span class="inst-title" id="inst-card6-cat">Profitability</span>
+                <span class="inst-arrow">›</span>
+              </div>
+              <div class="inst-sub-label" id="inst-card6-lbl">Gross Margin</div>
+              <div class="inst-main-row">
+                <span class="inst-val-badge green" id="inst-prof-badge">Gross Margin</span>
+              </div>
+              <div class="inst-sub-bold" id="inst-prof-val">—</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Strategy Benchmark Comparison -->
+        <div class="card glass" id="benchmark-card">
+          <div class="card-header-flex">
+            <h2 class="card-title">STRATEGY BENCHMARK COMPARISON <button class="info-btn" data-info="benchmark_section" aria-label="What is Strategy Benchmark Comparison?">ⓘ</button></h2>
+            <span id="benchmark-period-label" class="card-subtag">Identical period · $100k capital · 0.10% fee · 0.05% slippage</span>
+          </div>
+          
+          <!-- Metrics Table -->
+          <div class="table-responsive">
+            <table class="benchmark-table">
+              <thead>
+                <tr>
+                  <th>Strategy <button class="info-btn" data-info="strat_comparison" aria-label="What are the strategies?">ⓘ</button></th>
+                  <th>Total Return <button class="info-btn" data-info="total_return" aria-label="What is Total Return?">ⓘ</button></th>
+                  <th>CAGR <button class="info-btn" data-info="cagr" aria-label="What is CAGR?">ⓘ</button></th>
+                  <th>Sharpe Ratio <button class="info-btn" data-info="sharpe_ratio" aria-label="What is Sharpe Ratio?">ⓘ</button></th>
+                  <th>Max Drawdown <button class="info-btn" data-info="max_drawdown" aria-label="What is Max Drawdown?">ⓘ</button></th>
+                  <th>Volatility <button class="info-btn" data-info="strategy_volatility" aria-label="What is Strategy Volatility?">ⓘ</button></th>
+                  <th>Trades <button class="info-btn" data-info="trades_count" aria-label="What are Trades?">ⓘ</button></th>
+                  <th>Win Rate <button class="info-btn" data-info="win_rate" aria-label="What is Win Rate?">ⓘ</button></th>
+                </tr>
+              </thead>
+              <tbody id="benchmark-table-body">
+                <tr><td colspan="8" style="text-align:center; color:var(--text-3); padding:1.5rem;">Loading strategy comparison simulation...</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Equity Curve Visual with Interactive Crosshair -->
+          <div class="chart-container">
+            <h3 class="chart-title">Synchronized Portfolio Equity Curves (<span id="equity-currency-sym">$</span>) <button class="info-btn" data-info="equity_curves" aria-label="What are Equity Curves?">ⓘ</button></h3>
+            <div class="chart-legend">
+              <span class="legend-item"><span class="legend-dot dot-qv"></span> QuantView AI</span>
+              <span class="legend-item"><span class="legend-dot dot-bh"></span> Buy &amp; Hold</span>
+              <span class="legend-item"><span class="legend-dot dot-sma"></span> SMA 50/200</span>
+            </div>
+            <div class="equity-chart-stage" id="equity-chart-stage">
+              <svg id="equity-chart" class="equity-chart" viewBox="0 0 800 240" preserveAspectRatio="none">
+                <g id="equity-grid-layer"></g>
+                <path id="eq-path-bh" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linejoin="round" opacity="0.85" d="" />
+                <path id="eq-path-sma" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linejoin="round" opacity="0.85" d="" />
+                <path id="eq-path-qv" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linejoin="round" d="" />
+                <!-- Interactive Hover Crosshair & Dots -->
+                <g id="equity-crosshair-group" style="display: none;">
+                  <line id="eq-crosshair-v" class="groww-pointer-v" x1="0" y1="10" x2="0" y2="205" />
+                  <circle id="eq-dot-qv" cx="0" cy="0" r="4.5" fill="#22c55e" stroke="#ffffff" stroke-width="1.5" />
+                  <circle id="eq-dot-bh" cx="0" cy="0" r="4.5" fill="#38bdf8" stroke="#ffffff" stroke-width="1.5" />
+                  <circle id="eq-dot-sma" cx="0" cy="0" r="4.5" fill="#fbbf24" stroke="#ffffff" stroke-width="1.5" />
+                </g>
+              </svg>
+              <div id="eq-badge-x" class="groww-axis-badge groww-badge-x" style="display: none;"></div>
+              <div id="eq-tooltip-card" class="groww-tooltip-card eq-tooltip" style="display: none;">
+                <div class="gt-header" id="eq-tt-date">—</div>
+                <div class="gt-row"><span class="gt-lbl" style="color:#22c55e;">QuantView:</span> <strong id="eq-tt-qv" class="gt-val">—</strong></div>
+                <div class="gt-row"><span class="gt-lbl" style="color:#38bdf8;">Buy &amp; Hold:</span> <strong id="eq-tt-bh" class="gt-val">—</strong></div>
+                <div class="gt-row"><span class="gt-lbl" style="color:#fbbf24;">SMA 50/200:</span> <strong id="eq-tt-sma" class="gt-val">—</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Transaction Cost Sensitivity -->
+          <div class="cost-sensitivity-section">
+            <h3 class="chart-title">QuantView Transaction Cost Sensitivity <button class="info-btn" data-info="cost_sensitivity" aria-label="What is Transaction Cost Sensitivity?">ⓘ</button></h3>
+            <div class="cost-pills-grid" id="cost-scenarios-grid"></div>
+          </div>
+        </div>
+
+        <!-- Backtest -->
+        <div class="card glass backtest-card" id="backtest-card">
+          <div class="backtest-header-wrap">
+            <div class="backtest-title-row">
+              <h2 class="card-title">WALK-FORWARD BACKTEST VALIDATION <button class="info-btn" data-info="backtest_section" aria-label="What is Walk-Forward Backtest?">ⓘ</button></h2>
+              <div class="bt-badge-chips">
+                <span class="bt-chip pulse"><span class="pulse-dot"></span> Out-Of-Fold (OOF)</span>
+                <span class="bt-chip">Purged Walk-Forward CV</span>
+                <span class="bt-chip">Zero Look-Ahead Leakage</span>
+              </div>
+            </div>
+            <p class="bt-subtitle" id="bt-subtitle-text">T+20 horizon · 20-Day Purge/Embargo prevents look-ahead leakage · Out-of-fold predictions</p>
+          </div>
+
+          <div id="bt-grid" class="bt-primary-grid"></div>
+
+          <details class="bt-details" id="bt-details-accordion">
+            <summary class="bt-summary-btn">
+              <span class="bt-summary-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="bt-summary-icon"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                Advanced Statistical &amp; Calibration Metrics
+              </span>
+              <span class="bt-summary-hint">Expand 8 Extended Metrics ▾</span>
+            </summary>
+            <div id="bt-advanced-grid" class="bt-advanced-grid"></div>
+          </details>
+        </div>
+
+        <!-- Ticker-Specific Live News Section -->
+        <div class="card glass ticker-news-card" id="ticker-news-section">
+          <div class="ticker-news-header">
+            <div>
+              <div class="news-tab-switcher">
+                <button class="news-tab-btn active" id="tab-news-stories" data-tab="news">
+                  <span>📰 News stories</span>
+                  <span class="tab-badge" id="badge-news-count">8</span>
+                </button>
+                <button class="news-tab-btn" id="tab-press-releases" data-tab="press">
+                  <span>📢 Press releases</span>
+                  <span class="tab-badge" id="badge-press-count">6</span>
+                </button>
+              </div>
+              <p class="card-subtag" id="news-tab-subtitle">From web sources and news partners</p>
+            </div>
+          </div>
+          <div class="ticker-news-grid" id="ticker-news-grid">
+            <!-- Dynamically populated ticker news items -->
+          </div>
+          <div class="ticker-news-footer" id="ticker-news-footer">
+            <button id="btn-show-more-ticker-news" class="btn-show-more-news">
+              <span id="btn-show-more-text">Show more</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron-svg"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Prominent Regulatory Compliance Disclaimer -->
+        <div class="disclaimer-box prominent-disclaimer glass">
+          <div class="disclaimer-header">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="disclaimer-icon"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            <strong>REGULATORY &amp; LEGAL DISCLAIMER — NOT FINANCIAL ADVICE</strong>
+          </div>
+          <p id="disclaimer-text" class="disclaimer-text">QuantView AI produces automated mathematical and quantitative statistical models for algorithmic research purposes only. It is NOT registered with SEBI, SEC, or any regulatory authority as an investment advisor. Outputs do not constitute financial advice, solicitation, or recommendation to buy or sell securities.</p>
+        </div>
+
+      </section>
+
+      <!-- ─────────────────── MARKET WATCHLIST ─────────────────── -->
+      <section class="market-watchlist-section" id="market-watchlist">
+        <div class="card glass">
+          <div class="card-header-flex">
+            <div>
+              <h2 class="card-title" style="margin-bottom: 0.2rem;">FEATURED MARKET WATCHLIST</h2>
+              <span class="card-subtag">Curated active equities &amp; benchmark indices across US &amp; Indian markets · <span id="wl-last-updated">Last Updated: Just now</span></span>
+            </div>
+            <span class="wl-live-tag">● Live Market Stream</span>
+          </div>
+          <div class="table-responsive">
+            <table class="watchlist-table">
+              <thead>
+                <tr>
+                  <th>Asset</th>
+                  <th>Exchange</th>
+                  <th>Current Price</th>
+                  <th>Daily Change</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="watchlist-tbody">
+                <tr class="wl-row"><td colspan="7"><div class="skeleton-line" style="height: 38px; width: 100%; margin: 6px 0;"></div></td></tr>
+                <tr class="wl-row"><td colspan="7"><div class="skeleton-line" style="height: 38px; width: 100%; margin: 6px 0;"></div></td></tr>
+                <tr class="wl-row"><td colspan="7"><div class="skeleton-line" style="height: 38px; width: 100%; margin: 6px 0;"></div></td></tr>
+                <tr class="wl-row"><td colspan="7"><div class="skeleton-line" style="height: 38px; width: 100%; margin: 6px 0;"></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─────────────────── MARKET NEWS & INTELLIGENCE PORTAL ─────────────────── -->
+      <section class="market-news-section" id="market-news">
+        <div class="card glass news-main-card">
+          <div class="card-header-flex news-portal-header">
+            <div>
+              <div class="news-header-badge-row">
+                <span class="news-live-tag"><span class="pulse-dot"></span> Real-time Intelligence Feed</span>
+                <span class="news-wire-tag">Terminal Wire v3.2</span>
+              </div>
+              <h2 class="card-title" style="margin: 0.35rem 0 0.2rem; font-size: 1.3rem;">MARKET SENTIMENT &amp; QUANTITATIVE NEWS</h2>
+              <span class="card-subtag">Institutional macro indicators, algorithmic liquidity shifts, and real-time earnings signals</span>
+            </div>
+            <div class="news-view-controls">
+              <button id="btn-toggle-news-view" class="btn-news-toggle" title="Toggle between Dashboard View and Full News Only Mode">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="news-toggle-icon"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+                <span id="news-toggle-text">Focus: News Only Mode</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- News Filter Toolbar -->
+          <div class="news-toolbar-wrap">
+            <div class="news-search-bar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="news-search-svg"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input type="text" id="news-search-input" class="news-search-input" placeholder="Search news by ticker, macro topic, keyword (e.g. Fed, Nifty, Nvidia, Inflation)..." />
+              <button id="news-search-clear" class="news-search-clear hidden" title="Clear search">✕</button>
+            </div>
+
+            <div class="news-category-pills" id="news-category-pills">
+              <button class="news-cat-pill active" data-cat="all">All Intelligence <span class="cat-count">8</span></button>
+              <button class="news-cat-pill" data-cat="india">🇮🇳 Indian Equities (NSE/BSE)</button>
+              <button class="news-cat-pill" data-cat="us">🇺🇸 US Tech &amp; Megacaps</button>
+              <button class="news-cat-pill" data-cat="macro">🏦 Macro &amp; Central Banks</button>
+              <button class="news-cat-pill" data-cat="quant">⚡ Quant &amp; Volatility</button>
+              <button class="news-cat-pill" data-cat="bullish">🟢 Bullish Momentum</button>
+              <button class="news-cat-pill" data-cat="bearish">🔴 Risk / Bearish</button>
+            </div>
+          </div>
+
+          <!-- News Items Grid (Dynamically Populated by MarketauxService /api/news/live) -->
+          <div class="news-grid" id="news-grid-container">
+            <div class="news-skeleton-wrap" style="grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
+              <div class="skeleton-card glass" style="height: 220px; border-radius: 12px; padding: 16px;">
+                <div class="skeleton-line" style="height: 16px; width: 40%; margin-bottom: 12px;"></div>
+                <div class="skeleton-line" style="height: 22px; width: 90%; margin-bottom: 8px;"></div>
+                <div class="skeleton-line" style="height: 22px; width: 70%; margin-bottom: 16px;"></div>
+                <div class="skeleton-line" style="height: 14px; width: 100%; margin-bottom: 6px;"></div>
+                <div class="skeleton-line" style="height: 14px; width: 85%;"></div>
+              </div>
+              <div class="skeleton-card glass" style="height: 220px; border-radius: 12px; padding: 16px;">
+                <div class="skeleton-line" style="height: 16px; width: 40%; margin-bottom: 12px;"></div>
+                <div class="skeleton-line" style="height: 22px; width: 90%; margin-bottom: 8px;"></div>
+                <div class="skeleton-line" style="height: 22px; width: 70%; margin-bottom: 16px;"></div>
+                <div class="skeleton-line" style="height: 14px; width: 100%; margin-bottom: 6px;"></div>
+                <div class="skeleton-line" style="height: 14px; width: 85%;"></div>
+              </div>
+              <div class="skeleton-card glass" style="height: 220px; border-radius: 12px; padding: 16px;">
+                <div class="skeleton-line" style="height: 16px; width: 40%; margin-bottom: 12px;"></div>
+                <div class="skeleton-line" style="height: 22px; width: 90%; margin-bottom: 8px;"></div>
+                <div class="skeleton-line" style="height: 22px; width: 70%; margin-bottom: 16px;"></div>
+                <div class="skeleton-line" style="height: 14px; width: 100%; margin-bottom: 6px;"></div>
+                <div class="skeleton-line" style="height: 14px; width: 85%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Empty State (if search finds nothing) -->
+          <div id="news-no-results" class="news-no-results hidden">
+            <p>No news stories match your active filter or search keywords.</p>
+            <button id="btn-reset-news-filter" class="btn-secondary" style="margin-top: 0.75rem;">Reset Filters</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Full Story Interactive Modal ── -->
+      <div id="news-modal-overlay" class="news-modal-overlay hidden">
+        <div class="news-modal-box glass">
+          <div class="news-modal-header">
+            <div class="news-modal-source-row">
+              <span id="nm-source" class="news-source">Source</span>
+              <span id="nm-time" class="news-time">Timestamp</span>
+              <span id="nm-sentiment" class="news-badge-sentiment bullish">● Bullish</span>
+            </div>
+            <button id="news-modal-close" class="news-modal-close-btn" title="Close">✕</button>
+          </div>
+          <h3 id="nm-headline" class="news-modal-title">Headline</h3>
+          <div class="news-modal-body">
+            <p id="nm-paragraph1" class="nm-text">Full analysis details...</p>
+            <p id="nm-paragraph2" class="nm-text">Institutional context and forecast...</p>
+            
+            <div class="news-modal-quant-box">
+              <div class="nm-quant-title">⚡ QUANTVIEW ALGORITHMIC IMPACT ANALYSIS</div>
+              <div class="nm-quant-grid">
+                <div class="nm-qitem"><span class="nm-qlbl">Factor Sensitivity</span><strong id="nm-factor">Momentum + High Beta</strong></div>
+                <div class="nm-qitem"><span class="nm-qlbl">Expected Volatility Impact</span><strong id="nm-vol">Contraction (Low ATR)</strong></div>
+                <div class="nm-qitem"><span class="nm-qlbl">Ensemble Weight Adjustment</span><strong id="nm-weight">+12% Buy Probability</strong></div>
+              </div>
+            </div>
+
+            <div class="news-modal-tickers-wrap">
+              <span class="nm-tickers-lbl">Impacted Assets &amp; Quick Analyze:</span>
+              <div id="nm-tickers-list" class="nm-tickers-list">
+                <!-- Ticker buttons inserted dynamically -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    
+<!-- ── Settings Modal ── -->
+<div id="settings-modal-overlay" class="news-modal-overlay hidden">
+  <div class="news-modal-box glass settings-modal-box">
+    <div class="news-modal-header">
+      <div class="news-modal-source-row">
+        <span class="settings-modal-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="settings-badge-icon"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          PLATFORM PREFERENCES
+        </span>
+      </div>
+      <button id="settings-modal-close" class="news-modal-close-btn" title="Close preferences (Esc)">✕</button>
+    </div>
+    
+    <div class="settings-title-wrap">
+      <h3 class="news-modal-title">Platform &amp; Quantitative Preferences</h3>
+      <p class="settings-modal-desc">Configure currency conventions, backtesting simulation models, and real-time telemetry.</p>
+    </div>
+
+    <div class="settings-form">
+      <!-- Section 1: Display & Horizon -->
+      <div class="settings-card-group">
+        <div class="settings-card-group-title">
+          <span class="scg-icon">🌐</span> Market &amp; Horizon Conventions
+        </div>
+        <div class="settings-grid-2col">
+          <div class="settings-group">
+            <label class="settings-label" for="setting-currency">Default Currency &amp; Format</label>
+            <select id="setting-currency" class="settings-select">
+              <option value="auto">Auto-detect (₹ INR for India / $ USD for US)</option>
+              <option value="INR">Force ₹ Indian Rupee (INR - Lakhs/Crores)</option>
+              <option value="USD">Force $ US Dollar (USD - Millions/Billions)</option>
+            </select>
+          </div>
+          <div class="settings-group">
+            <label class="settings-label" for="setting-horizon">Forecast Horizon</label>
+            <select id="setting-horizon" class="settings-select">
+              <option value="20">~20 Sessions (Standard Swing / 1M)</option>
+              <option value="60">~60 Sessions (Quarterly Position / 3M)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Strategy Backtest & Capital Tuning -->
+      <div class="settings-card-group">
+        <div class="settings-card-group-title">
+          <span class="scg-icon">📊</span> Strategy Benchmark &amp; Execution Model
+        </div>
+        <div class="settings-grid-3col">
+          <div class="settings-group">
+            <label class="settings-label" for="setting-capital">Initial Capital</label>
+            <input type="number" id="setting-capital" class="settings-input" placeholder="100000" min="1000" step="5000" value="100000" />
+            <span class="settings-hint">Base backtesting capital</span>
+          </div>
+          <div class="settings-group">
+            <label class="settings-label" for="setting-cost">Fee Rate (%)</label>
+            <input type="number" id="setting-cost" class="settings-input" placeholder="0.10" min="0" max="5" step="0.01" value="0.10" />
+            <span class="settings-hint">Brokerage/Exchange fee</span>
+          </div>
+          <div class="settings-group">
+            <label class="settings-label" for="setting-slippage">Slippage (%)</label>
+            <input type="number" id="setting-slippage" class="settings-input" placeholder="0.05" min="0" max="5" step="0.01" value="0.05" />
+            <span class="settings-hint">Market impact buffer</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Telemetry & Live Pulse -->
+      <div class="settings-card-group">
+        <div class="settings-toggle-row">
+          <div class="toggle-text-wrap">
+            <strong class="toggle-title">Live Real-Time Price &amp; Signal Flashes</strong>
+            <p class="settings-hint">Simulate real-time tick pulse animations across active KPI and valuation cards</p>
+          </div>
+          <label class="switch-toggle" for="setting-live-pulse" aria-label="Toggle Live Price Flashes">
+            <input type="checkbox" id="setting-live-pulse" checked />
+            <span class="switch-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Section 4: Custom API Data Fallback Keys -->
+      <div class="settings-card-group">
+        <div class="settings-card-group-title">
+          <span class="scg-icon">🔑</span> Custom Data Providers <span class="badge-optional">Optional</span>
+        </div>
+        <div class="settings-grid-2col">
+          <div class="settings-group">
+            <label class="settings-label" for="setting-marketaux-key">Marketaux API Key</label>
+            <input type="password" id="setting-marketaux-key" class="settings-input" placeholder="Paste custom token..." />
+            <span class="settings-hint">Leave blank for QuantView Live Feed</span>
+          </div>
+          <div class="settings-group">
+            <label class="settings-label" for="setting-finnhub-key">Finnhub / FMP API Key</label>
+            <input type="password" id="setting-finnhub-key" class="settings-input" placeholder="Paste custom token..." />
+            <span class="settings-hint">Leave blank for built-in fallback</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons Row -->
+      <div class="settings-btn-row">
+        <button id="btn-reset-settings" class="btn-settings-reset" type="button" title="Reset all options to default values">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" class="reset-btn-svg"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+          <span>Reset to Defaults</span>
+        </button>
+        <button id="btn-save-settings" class="btn-settings-save" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" class="save-btn-svg"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>Apply &amp; Save</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- ─────────────────── FOOTER ─────────────────── -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-top-row">
+          <div class="footer-brand">
+            <div class="logo">
+              <span class="logo-diamond">◇</span>
+              <span class="logo-text">QuantView <strong>AI</strong></span>
+            </div>
+            <p class="footer-tagline">Institutional quantitative stock modeling, purged walk-forward validation, and SHAP explainable artificial intelligence.</p>
+          </div>
+          <div class="footer-links-col">
+            <span class="fl-head">Resources</span>
+            <a href="/docs" target="_blank">FastAPI Documentation</a>
+            <a href="/api/health" target="_blank">API Health Status</a>
+            <a href="/api/cache" target="_blank">Memory Cache Stats</a>
+          </div>
+          <div class="footer-links-col">
+            <span class="fl-head">Community</span>
+            <a href="https://github.com/AXON-09/stock_recommendations" target="_blank">GitHub Repository</a>
+            <a href="https://www.linkedin.com/in/ashutosh-nayak-b0b43a2a8/" target="_blank" rel="noopener noreferrer">LinkedIn (Ashutosh Nayak)</a>
+          </div>
+        </div>
+
+        <div class="footer-tech-stack">
+          <span class="tech-pill">PyTorch LSTM</span>
+          <span class="tech-pill">XGBoost Stacking</span>
+          <span class="tech-pill">SHAP Explainability</span>
+          <span class="tech-pill">FastAPI</span>
+          <span class="tech-pill">yfinance Engine</span>
+          <span class="tech-pill">Docker / Render</span>
+        </div>
+
+        <div class="footer-bottom-row">
+          <p>© 2026 QuantView AI. Educational quantitative research platform. Not financial advice.</p>
+          <p class="footer-sys-status"><span class="pulse-dot"></span> All Systems Operational</p>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+</div>
+<script src="glossary.js?v=5"></script>
+<script src="infobox.js?v=5"></script>
+<script src="logos.js?v=5"></script>
+<script src="services/logoService.js?v=5"></script>
+<script src="services/marketauxService.js?v=5"></script>
+<script src="services/watchlistService.js?v=25"></script>
+<script src="services/notificationService.js?v=25"></script>
+<script src="services/searchService.js?v=25"></script>
+<script src="services/liveQuoteService.js?v=25"></script>
+<script src="app.js?v=25"></script>
+</body>
+</html>
